@@ -48,7 +48,7 @@ def create_dataset(settings: MutableMapping[str, Any]) -> None:
         csv_field.get(
             settings['annotations']['captions_fields_prefix'].format(c_ind))
         for csv_field in csv_dev
-        for c_ind in range(1, 6)]
+        for c_ind in range(1, 2)]
     inner_logger.info('Done')
 
     # Create lists of indices and frequencies for words and characters.

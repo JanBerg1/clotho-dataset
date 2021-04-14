@@ -8,6 +8,7 @@ from typing import MutableSequence, MutableMapping, \
     Tuple, List, Any
 
 import numpy as np
+import pickle
 
 from tools.csv_functions import read_csv_file
 from tools.captions_functions import get_sentence_words, \
@@ -86,8 +87,7 @@ def check_data_for_split(dir_audio: Path, dir_data: Path, dir_root: Path,
 
         for data_file in dir_root.joinpath(dir_data).iterdir():
             # Get the stem of the audio file name
-            f_stem = str(data_file).split('file_')[-1].split('.wav_')[0]
-
+            f_stem = str(data_file).split('file_')[-1].split('.wav')[0]
             if f_stem == file_name_audio.stem:
                 audio_has_data_files = True
                 # Get the numpy record array
@@ -205,9 +205,9 @@ def create_lists_and_frequencies(captions: MutableSequence[str],
     chars_list, frequencies_chars = list(counter_characters.keys()), list(counter_characters.values())
 
     # Save to disk
-    obj_list = [words_list, frequencies_words, chars_list, frequencies_chars]
+    #obj_list = [words_list, frequencies_words, chars_list, frequencies_chars]
+    obj_list = [frequencies_words, chars_list, frequencies_chars]
     obj_f_names = [
-        settings_cntr['words_list_file_name'],
         settings_cntr['words_counter_file_name'],
         settings_cntr['characters_list_file_name'],
         settings_cntr['characters_frequencies_file_name']
@@ -250,6 +250,11 @@ def create_split_data(csv_split: MutableSequence[MutableMapping[str, str]], dir_
 
     captions_fields = [settings_ann['captions_fields_prefix'].format(i)
                        for i in range(1, int(settings_ann['nb_captions']) + 1)]
+    
+
+    ### USE CLOTHOS WORD LIST HERE TO GENERATE SAME INDICES!! ###
+    infile = open(settings_ann['clotho_words_list'],'rb')
+    words_list = pickle.load(infile)
 
     # For each sound:
     for csv_entry in csv_split:
@@ -282,8 +287,15 @@ def create_split_data(csv_split: MutableSequence[MutableMapping[str, str]], dir_
                 chars_caption.append(' ')
                 chars_caption.append('<eos>')
 
+            #indices_words = []
+            #for word in words_caption:
+             #   if word in words_list:
+              #      indices_words.append(words_list.index(word))
             indices_words = [words_list.index(word) for word in words_caption]
             indices_chars = [chars_list.index(char) for char in chars_caption]
+
+            print(indices_words)
+            #print(indices_words2)
 
             #   create the numpy object with all elements
             np_rec_array = np.rec.array(np.array(
@@ -326,12 +338,12 @@ def get_annotations_files(settings_ann: MutableMapping[str, Any], dir_ann: Path)
         file_name=settings_ann['evaluation_file'],
         base_dir=dir_ann)
 
-    caption_fields = [field_caption.format(c_ind) for c_ind in range(1, 6)]
+    caption_fields = [field_caption.format(c_ind) for c_ind in range(1, 2)]
 
     for csv_entry in chain(csv_development, csv_evaluation):
         # Clean sentence to remove any spaces before punctuations.
 
-        captions = [clean_sentence(csv_entry.get(caption_field), keep_case=True,
+        captions = [clean_sentence(csv_entry.get(caption_field), keep_case=False,
                                    remove_punctuation=False, remove_specials=False)
                     for caption_field in caption_fields]
 

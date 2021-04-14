@@ -11,7 +11,6 @@ __author__ = 'Konstantinos Drossos -- Tampere University'
 __docformat__ = 'reStructuredText'
 __all__ = ['read_csv_file']
 
-
 def read_csv_file(file_name: str,
                   base_dir: Optional[Union[str, Path]] = 'csv_files') \
         -> List[OrderedDict]:

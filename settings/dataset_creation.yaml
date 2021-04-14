@@ -14,12 +14,13 @@ directories:
   downloaded_audio_evaluation: 'evaluation'
 # -----------------------------------
 annotations:
-  development_file: 'clotho_captions_development.csv'
-  evaluation_file: 'clotho_captions_evaluation.csv'
+  development_file: 'train.csv'
+  evaluation_file: 'test.csv'
   audio_file_column: 'file_name'
   captions_fields_prefix: 'caption_{}'
+  clotho_words_list: 'words_list.p'
   use_special_tokens: Yes
-  nb_captions: 5
+  nb_captions: 1
   keep_case: No
   remove_punctuation_words: Yes
   remove_punctuation_chars: No
@@ -30,7 +31,7 @@ output_files:
   dir_output: 'data_splits'
   dir_data_development: 'development'
   dir_data_evaluation: 'evaluation'
-  file_name_template: 'clotho_file_{audio_file_name}_{caption_index}.npy'
+  file_name_template: 'clotho_file_{audio_file_name}.npy'
 # -----------------------------------
 audio:
   sr: 44100
@@ -38,7 +39,7 @@ audio:
   max_abs_value: 1.
 # -----------------------------------
 counters:
-  words_list_file_name: 'words_list.p'
+  words_list_file_name: '../words_list.p'
   words_counter_file_name: 'words_frequencies.p'
   characters_list_file_name: 'characters_list.p'
   characters_frequencies_file_name: 'characters_frequencies.p'

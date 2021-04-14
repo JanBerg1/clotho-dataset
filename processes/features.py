@@ -61,7 +61,6 @@ def extract_features(settings_data: MutableMapping[str, Any],
     # Apply the function to each file and save the result.
     for data_file_name in filter(lambda _x: _x.suffix == settings_features['data_files_suffix'],
                                  chain(dir_dev.iterdir(), dir_eva.iterdir())):
-
         # Load the data file.
         data_file = load_numpy_object(data_file_name)
 
@@ -103,7 +102,7 @@ def extract_features(settings_data: MutableMapping[str, Any],
             else dir_output_eva
 
         file_path = parent_path.joinpath(data_file_name.name)
-
+        print(file_path)
         # Dump it.
         dump_numpy_object(np_rec_array, str(file_path))
 

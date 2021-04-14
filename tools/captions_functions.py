@@ -6,6 +6,9 @@ from re import sub as re_sub
 from collections import Counter
 from itertools import chain
 from functools import partial
+import pickle
+from pathlib import Path
+from tools.file_io import load_pickle_file
 
 __author__ = 'Konstantinos Drossos -- Tampere University'
 __docformat__ = 'reStructuredText'
@@ -73,6 +76,9 @@ def clean_sentence(sentence: str,
 
     if remove_punctuation:
         the_sentence = re_sub('[,.!?;:\"]', '', the_sentence)
+    
+    # REMOVE WORDS NOT FOUND IN CLOTHO WORDSET
+    the_sentence = remove_unkown_words(the_sentence)
 
     return the_sentence
 
@@ -107,5 +113,15 @@ def get_words_counter(captions: MutableSequence[str],
         remove_specials=remove_specials
     )
     return Counter(chain.from_iterable(map(partial_func, captions)))
+
+def remove_unkown_words(sentence: str) -> str:
+    
+    words_list = load_pickle_file(Path("words_list.p"))
+    sentence_words = []
+    for word in sentence.split():
+        if word in words_list:   
+            sentence_words.append(word)
+  
+    return " ".join(sentence_words)
 
 # EOF

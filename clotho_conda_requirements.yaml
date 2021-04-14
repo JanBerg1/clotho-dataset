@@ -22,7 +22,7 @@ dependencies:
   - gst-plugins-base=1.14.0=hbbd80ab_1
   - gstreamer=1.14.0=hb453b48_1
   - icu=58.2=h211956c_0
-  - intel-openmp=2019.5=281
+  - intel-openmp
   - joblib=0.14.0=py_0
   - jpeg=9b=habf39ab_1
   - kiwisolver=1.1.0=py37he6710b0_0
@@ -53,7 +53,7 @@ dependencies:
   - numba=0.46.0=py37h962f231_0
   - numpy=1.17.4=py37hc1035e2_0
   - numpy-base=1.17.4=py37hde5b4d6_0
-  - openssl=1.1.1=h7b6447c_0
+  - openssl=1.1.1
   - pcre=8.43=he6710b0_0
   - pip=19.3.1=py37_0
   - pycparser=2.19=py37_0
